@@ -9,5 +9,5 @@ from dataclasses import dataclass
 class Location:
     title: str
     location_type: str
-    latt_long: tuple
+    latt_long: str
     woeid: int

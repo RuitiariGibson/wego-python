@@ -41,7 +41,7 @@ class Settings:
         config['URLS']['LOCATION_URL'] = f'{self.base_url}/api/location/search/'
         config['LOCATION'] = {}
         config['LOCATION']['BASE_LOCATION'] = 'Nairobi'
-        config['LOCATION']['BASE_LATT_LONG'] = '46.90,-90.0'
+        config['LOCATION']['BASE_LATT_LONG'] = '-1.270200, 36.804138'
         config['APPSTORAGE'] = {}
         config['APPSTORAGE']['BASE_APP_FOLDER'] = str(self.app_path)
         config['APPSTORAGE']['DATABASE_FILE_PATH'] = self.db_file_path

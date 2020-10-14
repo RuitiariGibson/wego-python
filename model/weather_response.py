@@ -9,14 +9,18 @@ from dataclasses import dataclass
 
 @dataclass
 class Weather:
-    location: str
+    id: int
     weather_state_abbr: str
     created: str
-    weather_state: str
-    temp: float
+    weather_state_name: str
+    the_temp: float
     min_temp: float
     max_temp: float
     predictability: int
     humidity: int
-    pressure: int
-    applicability_date: datetime
+    air_pressure: int
+    wind_direction: float
+    wind_speed: float
+    wind_direction_compass: float
+    applicable_date: datetime
+    visibility: float
