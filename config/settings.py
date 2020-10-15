@@ -12,6 +12,7 @@ class Settings:
     app_path =f'{Path.home()}/.wego'
     base_url = 'https://www.metaweather.com'
     config_file_path = f'{app_path}/appConfig.ini'
+    config = configparser.ConfigParser()
     # this throws errno 13 error so strig literals to combine the files os.path.join(app_path, '/ appConfig.ini')
 
     def create_app_folder(self) -> bool:
@@ -29,20 +30,18 @@ class Settings:
     """
 
     def write_config_file(self):
-        config = configparser.ConfigParser()
-        config['URLS'] = {}
-        config['URLS']['BASE_URL'] = self.base_url
-        config['URLS']['WEATHER_URL'] = f'{self.base_url}/api/location'
-        config['URLS']['LOCATION_URL'] = f'{self.base_url}/api/location/search/'
-        config['LOCATION'] = {}
-        config['LOCATION']['BASE_LOCATION'] = 'Nairobi'
-        config['LOCATION']['BASE_LATT_LONG'] = '-1.270200, 36.804138'
-        config['APPSTORAGE'] = {}
-        config['APPSTORAGE']['BASE_APP_FOLDER'] = str(self.app_path)
+        self.config['URLS'] = {}
+        self.config['URLS']['BASE_URL'] = self.base_url
+        self.config['URLS']['WEATHER_URL'] = f'{self.base_url}/api/location'
+        self.config['URLS']['LOCATION_URL'] = f'{self.base_url}/api/location/search/'
+        self.config['LOCATION'] = {}
+        self.config['LOCATION']['BASE_LOCATION'] = 'Nairobi'
+        self.config['LOCATION']['BASE_LATT_LONG'] = '-1.270200, 36.804138'
+        self.config['APPSTORAGE'] = {}
+        self.config['APPSTORAGE']['BASE_APP_FOLDER'] = str(self.app_path)
         path = Path(self.app_path)
         if path.exists():
-            with open(self.config_file_path, 'w') as configFile:
-                config.write(configFile)
+            self.__save()
         else:
             created = self.create_app_folder()
             if created:
@@ -59,16 +58,33 @@ class Settings:
     """
     @lru_cache(maxsize=None)
     def read_config_file(self, *, key: str, section: str) -> str:
-        config = configparser.ConfigParser()
         returnValue = None
         try:
-            config.read(self.config_file_path)
-            returnValue = config.get(section, key, fallback=None)
+            self.config.read(self.config_file_path)
+            returnValue = self.config.get(section, key, fallback=None)
         except FileNotFoundError as e:
-            sys.stderr(e)
+            print('No key associated with the section given')
             returnValue = ''
         return returnValue
 
     def config_exists(self) -> bool:
         path = Path(self.config_file_path)
         return path.exists()
+
+    def update_location_name(self, location=None, latt_long=None):
+        exists = self.config_exists()
+        self.config.read(self.config_file_path)
+        if exists:
+            try:
+                if location:
+                    self.config.set('LOCATION', 'BASE_LOCATION', location)
+                    self.__save()
+                elif latt_long:
+                    self.config.set('LOCATION', 'BASE_LATT_LONG', latt_long)
+                    self.__save()
+            except IOError as e:
+                print('Failed to update the config file')
+
+    def __save(self):
+        with open(self.config_file_path, 'w') as file:
+            self.config.write(file)

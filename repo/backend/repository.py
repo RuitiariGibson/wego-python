@@ -10,6 +10,7 @@ import concurrent.futures
 import requests
 import time
 from typing import List
+import os
 """load location information """
 
 
@@ -120,7 +121,7 @@ def __read_location_name():
     if location:
         return location
     else:
-        return 'nairobi'  #  default
+        return 'nairobi'  # default
 
 
 def __read_latt_long_values() -> str:
@@ -161,12 +162,8 @@ def __return_weather_objects(weather_array: List[Weather],  start_index, end_ind
 def initialize_method():
     settings = Settings()
     config_exists = __config_exists()
-    if not config_exists:
+    if not config_exists or os.path.getsize(settings.config_file_path) == 0:
         print('Configuring please wait...')
         settings.write_config_file()
         time.sleep(0.5)
         print('All done ^_^')
-
-
-def get_users_location(location = None):
-    return location.lower() if location else None
