@@ -49,8 +49,8 @@ def show_weather_information():
     next_day_humidity = __format_humidity(round(next_day_object.humidity, 1))
     next_day = _format_weather_date(weather_objects[2].applicable_date)
     table = [
-     [f'{today.weather_state_name.ljust(10)} {today_icon}', f'{tomorrow.weather_state_name.ljust(10)} {tomorrows_icon}',
-      f'{next_day_object.weather_state_name.ljust(10)} {next_day_icon}'],
+     [f'{today.weather_state_name.ljust(2)} {today_icon}', f'{tomorrow.weather_state_name.ljust(2)} {tomorrows_icon}',
+      f'{next_day_object.weather_state_name.ljust(2)} {next_day_icon}'],
      [f'{max_temp_today} ─ {min_temp_today}', f'{max_temp_tomorrow} ─ {min_temp_tomorrow}',
          f'{next_day_max_temp} ─ {next_day_min_temp}'],
      [f'{todays_pressure} ', f'{tomorrows_pressure}',  f'{next_day_pressure}'],
@@ -59,7 +59,8 @@ def show_weather_information():
      [f'{todays_humidity} ', f'{tomorrows_humidity}', f'{next_day_humidity}']
     ]
     print(tabulate.tabulate(table, tablefmt='grid', headers=[
-                      'Today', 'Tomorrow', next_day]), end='')
+                      'Today', 'Tomorrow', next_day]))
+    print()
 
 
 def _format_weather_date(raw_date: str) -> str:
