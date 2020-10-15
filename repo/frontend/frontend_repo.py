@@ -1,9 +1,11 @@
+# local imports
 from model.weather_status import WeatherType
 from utils.custom_switch import weather_status_switch
+from repo.backend.repository import parse_weather_information
+# standard lib imports
 import tabulate
 import dateutil.parser
 from datetime import datetime
-from repo.backend.repository import parse_weather_information
 
 
 def show_weather_information():

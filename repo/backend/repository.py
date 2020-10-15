@@ -1,11 +1,13 @@
+# local imports
 from config.settings import Settings
-import concurrent.futures
 from utils.utils import latt_long_matcher
 from exceptions.exceptions import InvalidLatt_LongValues
-import requests
 from utils.utils import internet_checker
 from model.location_response import Location
 from model.weather_response import Weather
+# standard lib imports
+import concurrent.futures
+import requests
 import time
 from typing import List
 """load location information """
