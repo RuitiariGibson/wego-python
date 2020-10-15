@@ -82,7 +82,7 @@ def parse_weather_information():
                     weatherArray = rawJson['consolidated_weather']
                     weather_objects = __return_weather_objects(
                         weatherArray, start_index=0, end_index=len(weatherArray)-1)
-                    return weather_objects[0]
+                    return weather_objects
                 except Exception as exc:
                     print('The following exception occurred:', exc)
             else:
