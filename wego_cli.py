@@ -15,3 +15,7 @@ def wego(location):
         settings.update_location_name(location=location)
     print('Working please wait.... (^_*)')
     show_weather_information()
+
+
+if __name__ == '__main__':
+    wego()
