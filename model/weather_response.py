@@ -1,8 +1,7 @@
 from datetime import datetime
 """
 Holds the weather response data
-Essentially the class properties are updated via the setters
-and accessed via getters hence supporting encapsulation principle
+
 """
 from dataclasses import dataclass
 

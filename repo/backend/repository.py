@@ -6,8 +6,9 @@ import requests
 from utils.utils import internet_checker
 from model.location_response import Location
 from model.weather_response import Weather
+import time
 from typing import List
-"""load location information -1.270200,36.804138"""
+"""load location information """
 
 
 # https://www.metaweather.com/api/location/search/?query=nairobi
@@ -64,9 +65,6 @@ def parse_location_response():
             except Exception as exc:
                 print('The following exception occurred: ', exc)
 
-        else:
-            print('base url is not set please set the base url and try again')
-
 
 def parse_weather_information():
     locationModel = parse_location_response()
@@ -120,7 +118,7 @@ def __read_location_name():
     if location:
         return location
     else:
-        return None
+        return 'nairobi'  #  default
 
 
 def __read_latt_long_values() -> str:
@@ -143,14 +141,9 @@ def __config_exists() -> bool:
 
 def __read_config_values():
     settings = Settings()
-    config_exists = settings.config_exists()
-    if config_exists:
-        base_url = settings.read_config_file(
+    base_url = settings.read_config_file(
             key='LOCATION_URL', section='URLS')
-        print(base_url)
-    else:
-        settings.write_config_file()
-        __read_config_values()
+    print(base_url)
 
 
 def __return_weather_objects(weather_array: List[Weather],  start_index, end_index):
@@ -161,3 +154,17 @@ def __return_weather_objects(weather_array: List[Weather],  start_index, end_ind
         weather_objects += __return_weather_objects(
             weather_array, start_index+1, end_index)
     return weather_objects
+
+
+def initialize_method():
+    settings = Settings()
+    config_exists = __config_exists()
+    if not config_exists:
+        print('Configuring please wait...')
+        settings.write_config_file()
+        time.sleep(0.5)
+        print('All done ^_^')
+
+
+def get_users_location(location = None):
+    return location.lower() if location else None

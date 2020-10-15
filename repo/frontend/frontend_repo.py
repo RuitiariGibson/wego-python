@@ -96,7 +96,7 @@ def __format_temp(temp):
     returnTemp = ''
     if temp == 20:
         returnTemp = "\033[32m"+str(temp)+"\033[0m"   # green normal
-    elif temp in range(0, 19):
+    elif temp < 20:
         returnTemp = '\033[38;5;111m' + str(temp) + '\033[0m'  # blue chilly
     else:
         returnTemp = '\033[31m'+str(temp)+'\033[0m '  # red sweltering hot
@@ -109,7 +109,7 @@ def __format_air_pressure(pressure):
     finalPressure = ''
     if pressure == 1013:
         finalPressure = str(pressure)
-    elif pressure in range(0, 1013):
+    elif pressure < 1013:
         finalPressure = pressure_icons[0] + str(pressure)
     else:
         finalPressure = pressure_icons[1] + str(pressure)

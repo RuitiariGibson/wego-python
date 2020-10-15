@@ -1,6 +1,5 @@
 from pathlib import Path
 import configparser
-import os
 from functools import lru_cache
 import sys
 """
@@ -11,26 +10,22 @@ settings class which contains functions needed to persist the constants needed
 
 class Settings:
     app_path =f'{Path.home()}/.wego'
-    db_file_path = os.path.join(app_path, '/database')
     base_url = 'https://www.metaweather.com'
     config_file_path = f'{app_path}/appConfig.ini'
     # this throws errno 13 error so strig literals to combine the files os.path.join(app_path, '/ appConfig.ini')
 
     def create_app_folder(self) -> bool:
         returnValue = False
-        msg = ''
         path = Path(self.app_path)
         try:
             path.mkdir(mode=0o777, exist_ok=True)
             returnValue = True
-            msg = None
         except PermissionError as e:
             print(e)
             returnValue = False
         return returnValue
     """
     writes config file to the system
-    essentially this method should be called on a background thread
     """
 
     def write_config_file(self):
@@ -44,7 +39,6 @@ class Settings:
         config['LOCATION']['BASE_LATT_LONG'] = '-1.270200, 36.804138'
         config['APPSTORAGE'] = {}
         config['APPSTORAGE']['BASE_APP_FOLDER'] = str(self.app_path)
-        config['APPSTORAGE']['DATABASE_FILE_PATH'] = self.db_file_path
         path = Path(self.app_path)
         if path.exists():
             with open(self.config_file_path, 'w') as configFile:
